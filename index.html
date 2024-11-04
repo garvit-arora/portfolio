@@ -3,20 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Marvel Portfolio</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto&display=swap">
+    <title>My Epic Marvel Portfolio</title>
     <style>
-        /* General Styles */
-        body, html {
+        /* Basic Reset */
+        * {
             margin: 0;
             padding: 0;
-            height: 100%;
-            font-family: 'Roboto', sans-serif;
-            background-color: #000; /* Black background */
-            color: white;
-            overflow-x: hidden; /* Prevent horizontal scroll */
-            display: flex;
-            flex-direction: column;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        /* Body */
+        body {
+            background-color: #f0f0f0;
+            color: #333;
+            overflow-x: hidden;
         }
 
         /* Loading Screen */
@@ -24,37 +25,23 @@
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.9);
+            right: 0;
+            bottom: 0;
+            background: url('loading_background.jpg') no-repeat center center fixed;
+            background-size: cover;
+            z-index: 1000;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            flex-direction: column;
-            z-index: 9999;
-            animation: fadeIn 1s;
+            color: #fff;
         }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        #loading h1 {
-            font-size: 2.5em;
-            margin-bottom: 20px;
-            color: #FF4500; /* Orange-red color */
-            animation: pulse 1s infinite;
-        }
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-        #loading .loader {
-            border: 16px solid #f3f3f3; /* Light grey */
-            border-top: 16px solid #3498db; /* Blue */
+        .loader {
+            border: 16px solid #f3f3f3;
+            border-top: 16px solid #3498db;
             border-radius: 50%;
-            width: 60px;
-            height: 60px;
+            width: 100px;
+            height: 100px;
             animation: spin 2s linear infinite;
         }
         @keyframes spin {
@@ -62,201 +49,199 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* Main Content Styles */
+        /* Main Content */
         #main {
-            display: none; /* Hidden initially */
-            flex: 1;
+            display: none;
             flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-            position: relative;
+            padding: 20px;
         }
 
-        /* Header Styles */
+        /* Header */
         header {
-            background-color: #1d1d1d; /* Darker background */
-            width: 100%;
-            padding: 20px;
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 1000;
-        }
-        header h1 {
-            margin: 0;
-            font-size: 2.5em;
-            color: #ff4d00; /* Bright orange */
-            text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
-        }
-        nav {
-            margin-top: 10px;
-        }
-        nav a {
-            color: #fff;
-            text-decoration: none;
-            margin: 0 15px;
-            font-weight: bold;
-            transition: color 0.3s;
-        }
-        nav a:hover {
-            color: #ff4d00; /* Highlight color */
-        }
-
-        /* Hero Section Styles */
-        .hero {
-            background-image: url('https://example.com/marvel-background.jpg'); /* Replace with actual background */
-            height: 80vh;
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
-            animation: slideIn 1.5s ease forwards;
-        }
-        @keyframes slideIn {
-            from { transform: translateY(-100%); }
-            to { transform: translateY(0); }
-        }
-        .hero h2 {
-            font-size: 3em;
-            text-align: center;
-            color: #FF4500;
-            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
-            animation: fadeIn 2s ease forwards;
-        }
-
-        /* Project Showcase */
-        .project-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin-top: 20px;
-            padding: 20px;
-        }
-        .project-card {
-            background: rgba(255, 0, 0, 0.8); /* Red background */
-            padding: 20px;
-            margin: 10px;
-            border-radius: 10px;
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
-            width: 300px;
-            transition: transform 0.3s, box-shadow 0.3s;
-            position: relative;
-            overflow: hidden; /* Hide overflow for animated effect */
-        }
-        .project-card:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 25px rgba(255, 255, 255, 1);
-        }
-        .project-card h3 {
-            margin: 0;
-            font-size: 1.5em;
-            color: #FFD700; /* Gold color */
-        }
-        .project-card p {
-            font-size: 1em;
-            color: #fff;
-        }
-        .project-card .details {
-            display: none; /* Hide details initially */
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            color: #FFD700;
-            padding: 10px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
-        }
-        .project-card:hover .details {
-            display: block; /* Show details on hover */
-        }
-
-        /* Skills Section */
-        .skills-container {
-            margin-top: 40px;
-            width: 100%;
-            text-align: center;
-            background: rgba(30, 30, 30, 0.8);
-            padding: 20px;
-        }
-        .skill {
-            margin: 20px 0;
+            background-color: #282c34;
+            color: white;
+            padding: 10px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        .skill-name {
+        header h1 {
+            font-size: 2.5em;
+            font-weight: bold;
+        }
+        nav a {
+            color: #61dafb;
+            text-decoration: none;
+            margin: 0 15px;
             font-size: 1.2em;
-            color: #FFD700;
+            transition: color 0.3s;
+        }
+        nav a:hover {
+            color: #21a1f1;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: url('hero_background.jpg') no-repeat center center;
+            background-size: cover;
+            color: white;
+            padding: 100px 20px;
+            text-align: center;
+        }
+        .hero h2 {
+            font-size: 4em;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
+        }
+
+        /* Project Showcase */
+        .project-container {
+            padding: 40px 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .project-container h2 {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+        .project-card {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+        }
+        .project-card:hover {
+            transform: scale(1.05);
+        }
+        .details {
+            display: none;
+        }
+        .project-card:hover .details {
+            display: block;
+        }
+
+        /* Skills Section */
+        .skills-container {
+            padding: 40px 20px;
+            background-color: #e7e7e7;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .skills-container h2 {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+        .skill {
+            margin: 15px 0;
+        }
+        .skill-name {
+            font-weight: bold;
+            margin-bottom: 5px;
         }
         .skill-bar {
-            width: 70%;
-            height: 10px;
-            background: #444;
+            background-color: #ddd;
             border-radius: 5px;
-            overflow: hidden;
+            height: 20px;
             position: relative;
+            overflow: hidden;
         }
         .skill-progress {
+            background-color: #4caf50;
             height: 100%;
-            background: #FF4500;
-            transition: width 1s;
+            transition: width 0.4s;
         }
 
         /* About Section */
         #about {
-            background: url('https://example.com/about-background.jpg') no-repeat center center; /* Replace with actual background */
-            background-size: cover;
-            height: 70vh;
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #FFD700;
-            text-align: center;
-            padding: 20px;
+            padding: 40px 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
         #about h2 {
-            font-size: 3em;
+            text-align: center;
+            font-size: 2.5em;
             margin-bottom: 20px;
         }
-        #about p {
-            font-size: 1.2em;
-            max-width: 800px;
-        }
 
-        /* Testimonials */
+        /* Testimonials Section */
         .testimonial-container {
-            margin-top: 40px;
-            padding: 20px;
-            width: 100%;
-            text-align: center;
-            background: rgba(30, 30, 30, 0.8);
+            padding: 40px 20px;
+            background-color: #e7e7e7;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
         }
         .testimonial-carousel {
-            display: flex;
-            overflow: hidden;
-            position: relative;
+            position: absolute;
+            width: 100%;
+            transition: transform 0.5s;
         }
         .testimonial {
+            opacity: 0;
+            transition: opacity 0.5s;
             font-size: 1.2em;
-            color: #fff;
-            margin: 0 15px;
-            animation: fadeIn 2s forwards;
-            min-width: 300px; /* Fixed width for carousel */
+            text-align: center;
+            padding: 10px;
+        }
+        .testimonial.active {
+            opacity: 1;
         }
 
-        /* Footer Styles */
+        /* Contact Section */
+        #contact {
+            padding: 40px 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        #contact h2 {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+        #contact-form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        #contact-form input, #contact-form textarea {
+            width: 100%;
+            max-width: 400px;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+        #contact-form button {
+            padding: 10px 20px;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s;
+        }
+        #contact-form button:hover {
+            background-color: #45a049;
+        }
+
+        /* Footer */
         footer {
-            background-color: #1d1d1d;
+            background-color: #282c34;
             padding: 20px;
             width: 100%;
             text-align: center;
             position: relative;
+            color: white;
         }
         footer p {
             margin: 0;
@@ -276,7 +261,7 @@
                 font-size: 2em;
             }
             .hero h2 {
-                font-size: 2em;
+                font-size: 2.5em;
             }
             .project-card {
                 width: 90%;
@@ -295,7 +280,7 @@
     <div id="main">
         <!-- Header -->
         <header>
-            <h1>My Marvel Portfolio</h1>
+            <h1>My Epic Marvel Portfolio</h1>
             <nav>
                 <a href="#hero">Home</a>
                 <a href="#projects">Projects</a>
@@ -315,43 +300,52 @@
         <div class="project-container" id="projects">
             <h2>My Projects</h2>
             <div class="project-card">
-                <h3>Project 1: Avengers App</h3>
-                <p>A web app to manage your superhero team.</p>
+                <h3>Iron Man Suit Simulator</h3>
+                <p>A web-based simulator for customizing your own Iron Man suit!</p>
                 <div class="details">
-                    <p>Technologies: HTML, CSS, JavaScript</p>
-                    <p>Description: This app allows you to create, view, and manage your superhero team with a cool UI.</p>
+                    <p><strong>Technologies:</strong> HTML, CSS, JavaScript</p>
+                    <p><strong>Description:</strong> Create your own suit design, choose colors, and even test it out in a simulated environment!</p>
                 </div>
             </div>
             <div class="project-card">
-                <h3>Project 2: Stark Industries Dashboard</h3>
-                <p>A dashboard for monitoring Stark Industries projects.</p>
+                <h3>Spider-Man Web Shooter</h3>
+                <p>An interactive web application that allows users to create and shoot virtual webs!</p>
                 <div class="details">
-                    <p>Technologies: React, Node.js</p>
-                    <p>Description: A full-stack application that provides insights into various projects at Stark Industries.</p>
+                    <p><strong>Technologies:</strong> HTML, CSS, JavaScript</p>
+                    <p><strong>Description:</strong> Simulate web-shooting like Spidey with physics-based mechanics!</p>
+                </div>
+            </div>
+            <!-- Add more project cards here -->
+            <div class="project-card">
+                <h3>Thor's Hammer Fetcher</h3>
+                <p>A game that lets you fetch Thor's hammer, Mjolnir, using your skills!</p>
+                <div class="details">
+                    <p><strong>Technologies:</strong> HTML, CSS, JavaScript</p>
+                    <p><strong>Description:</strong> Test your strength and worthiness in this fun and challenging game!</p>
                 </div>
             </div>
             <div class="project-card">
-                <h3>Project 3: Wakanda Forever Website</h3>
-                <p>A website dedicated to the culture of Wakanda.</p>
+                <h3>Hulk Smash Challenge</h3>
+                <p>A fitness app inspired by the Hulk!</p>
                 <div class="details">
-                    <p>Technologies: HTML, CSS, JavaScript, Bootstrap</p>
-                    <p>Description: This website showcases the rich culture and advanced technology of Wakanda.</p>
+                    <p><strong>Technologies:</strong> HTML, CSS, JavaScript</p>
+                    <p><strong>Description:</strong> Track your workouts and smash your fitness goals!</p>
                 </div>
             </div>
             <div class="project-card">
-                <h3>Project 4: Spider-Man Web Shooter Game</h3>
-                <p>A fun web-based game where you can shoot webs like Spider-Man.</p>
+                <h3>Black Widow Combat Trainer</h3>
+                <p>An interactive training simulator for aspiring fighters!</p>
                 <div class="details">
-                    <p>Technologies: HTML, CSS, JavaScript</p>
-                    <p>Description: An interactive game where you swing through the city and complete missions.</p>
+                    <p><strong>Technologies:</strong> HTML, CSS, JavaScript</p>
+                    <p><strong>Description:</strong> Hone your skills with this combat training simulator.</p>
                 </div>
             </div>
             <div class="project-card">
-                <h3>Project 5: Thor's Hammer Shop</h3>
-                <p>An online store for Thor's merchandise.</p>
+                <h3>Doctor Strange's Portal Maker</h3>
+                <p>Create your own mystical portals!</p>
                 <div class="details">
-                    <p>Technologies: HTML, CSS, JavaScript, PHP</p>
-                    <p>Description: A full e-commerce platform where you can buy exclusive Thor merchandise.</p>
+                    <p><strong>Technologies:</strong> HTML, CSS, JavaScript</p>
+                    <p><strong>Description:</strong> Dive into the mystical arts and create portals to different dimensions!</p>
                 </div>
             </div>
         </div>
@@ -380,13 +374,19 @@
             <div class="skill">
                 <div class="skill-name">React</div>
                 <div class="skill-bar">
-                    <div class="skill-progress" style="width: 80%;"></div>
+                    <div class="skill-progress" style="width: 75%;"></div>
                 </div>
             </div>
             <div class="skill">
                 <div class="skill-name">Node.js</div>
                 <div class="skill-bar">
-                    <div class="skill-progress" style="width: 75%;"></div>
+                    <div class="skill-progress" style="width: 70%;"></div>
+                </div>
+            </div>
+            <div class="skill">
+                <div class="skill-name">Python</div>
+                <div class="skill-bar">
+                    <div class="skill-progress" style="width: 60%;"></div>
                 </div>
             </div>
         </div>
@@ -394,19 +394,29 @@
         <!-- About Section -->
         <div id="about">
             <h2>About Me</h2>
-            <p>Hello! I’m a passionate web developer with a love for all things Marvel. I enjoy creating applications that not only function well but also provide a fantastic user experience.</p>
+            <p>I'm a passionate developer inspired by the Marvel Universe. I love creating unique projects that showcase my skills and creativity.</p>
+            <p>In my spare time, I enjoy reading comics, watching superhero movies, and exploring new technologies.</p>
         </div>
 
         <!-- Testimonials Section -->
         <div class="testimonial-container" id="testimonials">
-            <h2>What the Heroes Say:</h2>
+            <h2>Testimonials</h2>
             <div class="testimonial-carousel">
-                <div class="testimonial">“An epic experience that rivals the Avengers!” - Tony Stark</div>
-                <div class="testimonial">“A web experience worthy of Asgard!” - Thor</div>
-                <div class="testimonial">“Absolutely smashing!” - Hulk</div>
-                <div class="testimonial">“This portfolio is the real deal!” - Black Widow</div>
-                <div class="testimonial">“No one can match this creativity!” - Doctor Strange</div>
-                <div class="testimonial">“It's like the Infinity Gauntlet of portfolios!” - Thanos</div>
+                <div class="testimonial active">
+                    <p>"This portfolio is as amazing as the Avengers!" - Tony Stark</p>
+                </div>
+                <div class="testimonial">
+                    <p>"I love the creativity and design!" - Spider-Man</p>
+                </div>
+                <div class="testimonial">
+                    <p>"A true hero in the making!" - Captain America</p>
+                </div>
+                <div class="testimonial">
+                    <p>"This site is a portal to awesomeness!" - Doctor Strange</p>
+                </div>
+                <div class="testimonial">
+                    <p>"It's incredible, just like my skills!" - Black Widow</p>
+                </div>
             </div>
         </div>
 
@@ -414,58 +424,49 @@
         <div id="contact">
             <h2>Contact Me</h2>
             <form id="contact-form">
-                <input type="text" id="name" name="name" placeholder="Your Name" required>
-                <input type="email" id="email" name="email" placeholder="Your Email" required>
-                <textarea id="message" name="message" rows="4" placeholder="Your Message" required></textarea>
+                <input type="text" placeholder="Your Name" required>
+                <input type="email" placeholder="Your Email" required>
+                <textarea placeholder="Your Message" rows="5" required></textarea>
                 <button type="submit">Send Message</button>
             </form>
         </div>
 
         <!-- Footer -->
         <footer>
-            <p>Connect with me:</p>
+            <p>&copy; 2024 My Epic Marvel Portfolio</p>
             <div class="socials">
-                <a href="#" target="_blank">Twitter</a>
-                <a href="#" target="_blank">GitHub</a>
-                <a href="#" target="_blank">LinkedIn</a>
+                <a href="#">GitHub</a>
+                <a href="#">LinkedIn</a>
+                <a href="#">Twitter</a>
             </div>
-            <p>&copy; 2024 Marvel Portfolio. All rights reserved.</p>
         </footer>
     </div>
 
     <script>
-        // Hide loading screen and show main content
-        window.addEventListener("load", function() {
+        // Loading Screen Logic
+        window.onload = function() {
             document.getElementById("loading").style.display = "none";
             document.getElementById("main").style.display = "flex";
-        });
+        };
 
-        // Contact form submission
-        document.getElementById("contact-form").addEventListener("submit", function(event) {
-            event.preventDefault();
-            alert("Thank you for your message, " + document.getElementById("name").value + "!");
-            // Clear form fields
-            document.getElementById("contact-form").reset();
-        });
-
-        // Testimonial Carousel
+        // Testimonial Carousel Logic
         const testimonials = document.querySelectorAll('.testimonial');
-        let index = 0;
+        let currentIndex = 0;
 
-        setInterval(() => {
-            testimonials[index].style.opacity = 0; // Fade out current testimonial
-            index = (index + 1) % testimonials.length; // Move to the next testimonial
-            testimonials[index].style.opacity = 1; // Fade in next testimonial
-        }, 3000); // Change every 3 seconds
+        function showNextTestimonial() {
+            testimonials[currentIndex].classList.remove('active');
+            currentIndex = (currentIndex + 1) % testimonials.length;
+            testimonials[currentIndex].classList.add('active');
+        }
 
-        // Skill progress animation
-        document.querySelectorAll('.skill-progress').forEach(skill => {
-            const width = skill.style.width;
-            skill.style.width = '0';
-            setTimeout(() => {
-                skill.style.width = width; // Animate to actual width
-            }, 100);
-        });
+        setInterval(showNextTestimonial, 3000); // Change testimonial every 3 seconds
+
+        // Contact Form Submission
+        document.getElementById('contact-form').onsubmit = function(e) {
+            e.preventDefault();
+            alert('Thank you for your message! I will get back to you soon.');
+            this.reset(); // Clear the form
+        };
     </script>
 </body>
 </html>
