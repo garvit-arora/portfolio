@@ -7,40 +7,7 @@
     <link rel="stylesheet" href="styles.css">
     <script src="script.js" defer></script>
     <style>
-        /* Loader styles for thunder effect */
-        #loader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #000; /* Dark background */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 10000;
-            color: #fff;
-            font-size: 3rem;
-            text-transform: uppercase;
-            animation: thunder 0.1s 5; /* Lightning effect */
-        }
-
-        /* Thunder animation keyframes */
-        @keyframes thunder {
-            0%, 100% { background: #000; color: #fff; }
-            50% { background: #fff; color: #000; }
-        }
-
-        /* Fade out animation for loader */
-        .fade-out {
-            animation: fadeOut 1s forwards;
-        }
-
-        @keyframes fadeOut {
-            100% { opacity: 0; visibility: hidden; }
-        }
-
-        /* Main body styles */
+        /* CSS styles for the portfolio */
         body {
             font-family: 'Arial', sans-serif;
             line-height: 1.6;
@@ -49,49 +16,184 @@
             background-color: #f0f0f0;
         }
 
-        /* Other styles for the portfolio page */
-        /* Add your original CSS here for header, navbar, etc. */
+        header {
+            position: sticky;
+            top: 0;
+            background: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            z-index: 10;
+            transition: background 0.3s;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+        }
+
+        .nav-links li {
+            margin-left: 20px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #ff9800;
+        }
+
+        /* Thunderstorm and Thor Animation */
+        .thunder-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 1;
+            animation: thunder-flash 3s ease-in-out forwards;
+        }
+
+        .thor-image {
+            width: 500px;
+            height: auto;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+
+        /* Thunder Flash Animation */
+        @keyframes thunder-flash {
+            0%, 100% { background: black; opacity: 1; }
+            20% { background: white; opacity: 1; }
+            40% { background: black; opacity: 1; }
+            60% { background: white; opacity: 0.7; }
+            80% { background: black; opacity: 1; }
+            100% { opacity: 0; display: none; }
+        }
+
+        /* Content Zoom-In Effect */
+        .content-container {
+            opacity: 0;
+            transform: scale(0.9);
+            transition: opacity 1s ease 3s, transform 1s ease 3s;
+        }
+
+        .content-container.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: url('https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNjUyOXwwfDF8c2VhcmNofDF8fHRlY2h8ZW58MHx8fHwxNjE2MDg3MTY1&ixlib=rb-1.2.1&q=80&w=1920') no-repeat center center/cover;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+        }
+
+        /* Additional styles for content */
+        .content {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .scroll-indicator {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 18px;
+            z-index: 1000;
+            transition: opacity 0.5s ease;
+        }
     </style>
 </head>
-<body>
 
-    <!-- Loader with Marvel-style opening -->
-    <div id="loader">Loading...</div>
+<body>
+    <!-- Thunder Overlay with Thor Image -->
+    <div class="thunder-overlay" id="thunderOverlay">
+        <img src="https://example.com/thor-image.jpg" alt="Thor" class="thor-image" id="thorImage">
+    </div>
 
     <header>
-        <!-- Navbar and main page content as in your previous code -->
+        <nav class="navbar">
+            <div class="logo">My Portfolio</div>
+            <ul class="nav-links">
+                <li><a href="#about">About Me</a></li>
+                <li><a href="#skills">Skills</a></li>
+            </ul>
+        </nav>
     </header>
-    <section class="hero">
-        <h1>Garvit Arora</h1>
-        <p>I'm a first-year Computer Science student at BPIT</p>
-    </section>
-    <section id="about" class="parallax">
-        <div class="content">
-            <h2>About Me</h2>
-            <p>Hello! I'm a passionate coder eager to learn and grow in the tech field. I enjoy working on interesting projects and exploring new technologies.</p>
-        </div>
-    </section>
-    <section id="skills">
-        <h2>Skills</h2>
-        <ul class="skills-list">
-            <li>HTML</li>
-            <li>CSS</li>
-            <li>Problem Solving</li>
-            <li>C++</li>
-            <li>Python</li>
-        </ul>
-    </section>
-    <footer>
-        <p>&copy; 2024 Garvit Arora. All rights reserved.</p>
-    </footer>
+
+    <!-- Main Content Section with Zoom-In Effect -->
+    <div class="content-container" id="mainContent">
+        <section class="hero">
+            <h1>Garvit Arora</h1>
+            <p>I'm a first-year Computer Science student at BPIT</p>
+        </section>
+
+        <section id="about" class="parallax">
+            <div class="content">
+                <h2>About Me</h2>
+                <p>Hello! I'm a passionate coder eager to learn and grow in the tech field. I enjoy working on interesting projects and exploring new technologies.</p>
+                <img src="https://ibb.co/xH5HD3T" alt="Profile Picture" width="150" height="150">
+            </div>
+        </section>
+
+        <section id="skills">
+            <h2>Skills</h2>
+            <ul class="skills-list">
+                <li>HTML</li>
+                <li>CSS</li>
+                <li>Problem Solving</li>
+                <li>C++</li>
+                <li>C</li>
+                <li>Python</li>
+            </ul>
+        </section>
+
+        <footer>
+            <p>&copy; 2024 Garvit Arora. All rights reserved.</p>
+        </footer>
+    </div>
 
     <script>
-        // Wait for the DOM to load, then apply the fade-out effect
-        window.addEventListener("load", () => {
-            const loader = document.getElementById("loader");
+        // Reveal Thor and hide overlay
+        document.addEventListener('DOMContentLoaded', () => {
+            const thunderOverlay = document.getElementById('thunderOverlay');
+            const thorImage = document.getElementById('thorImage');
+            const mainContent = document.getElementById('mainContent');
+
             setTimeout(() => {
-                loader.classList.add("fade-out"); // Start fade-out animation
-            }, 1000); // Duration before starting fade-out
+                thorImage.style.opacity = 1; // Show Thor
+            }, 500); // Show Thor image after half a second
+
+            setTimeout(() => {
+                thunderOverlay.style.opacity = 0; // Fade out thunder overlay
+                mainContent.classList.add('visible'); // Show main content with zoom-in
+            }, 3000); // End thunder effect after 3 seconds
         });
     </script>
 </body>
