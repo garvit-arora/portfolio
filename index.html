@@ -10,15 +10,15 @@
         body, html {
             margin: 0;
             padding: 0;
-            height: 100vh;
+            height: 100%;
             font-family: 'Roboto', sans-serif;
             background-color: #000; /* Black background */
             color: white;
-            overflow: hidden;
+            overflow-x: hidden; /* Prevent horizontal scroll */
             display: flex;
             flex-direction: column;
         }
-        
+
         /* Loading Screen */
         #loading {
             position: fixed;
@@ -32,7 +32,7 @@
             justify-content: center;
             flex-direction: column;
             z-index: 9999;
-            animation: fadeIn 2s;
+            animation: fadeIn 1s;
         }
         @keyframes fadeIn {
             from { opacity: 0; }
@@ -69,6 +69,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: flex-start;
+            position: relative;
         }
 
         /* Header Styles */
@@ -125,12 +126,13 @@
             animation: fadeIn 2s ease forwards;
         }
 
-        /* Project Cards */
+        /* Project Showcase */
         .project-container {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
             margin-top: 20px;
+            padding: 20px;
         }
         .project-card {
             background: rgba(255, 0, 0, 0.8); /* Red background */
@@ -140,6 +142,8 @@
             box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
             width: 300px;
             transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            overflow: hidden; /* Hide overflow for animated effect */
         }
         .project-card:hover {
             transform: scale(1.05);
@@ -154,6 +158,76 @@
             font-size: 1em;
             color: #fff;
         }
+        .project-card .details {
+            display: none; /* Hide details initially */
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            color: #FFD700;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+        }
+        .project-card:hover .details {
+            display: block; /* Show details on hover */
+        }
+
+        /* Skills Section */
+        .skills-container {
+            margin-top: 40px;
+            width: 100%;
+            text-align: center;
+            background: rgba(30, 30, 30, 0.8);
+            padding: 20px;
+        }
+        .skill {
+            margin: 20px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .skill-name {
+            font-size: 1.2em;
+            color: #FFD700;
+        }
+        .skill-bar {
+            width: 70%;
+            height: 10px;
+            background: #444;
+            border-radius: 5px;
+            overflow: hidden;
+            position: relative;
+        }
+        .skill-progress {
+            height: 100%;
+            background: #FF4500;
+            transition: width 1s;
+        }
+
+        /* About Section */
+        #about {
+            background: url('https://example.com/about-background.jpg') no-repeat center center; /* Replace with actual background */
+            background-size: cover;
+            height: 70vh;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #FFD700;
+            text-align: center;
+            padding: 20px;
+        }
+        #about h2 {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+        #about p {
+            font-size: 1.2em;
+            max-width: 800px;
+        }
 
         /* Testimonials */
         .testimonial-container {
@@ -163,53 +237,49 @@
             text-align: center;
             background: rgba(30, 30, 30, 0.8);
         }
+        .testimonial-carousel {
+            display: flex;
+            overflow: hidden;
+            position: relative;
+        }
         .testimonial {
             font-size: 1.2em;
             color: #fff;
+            margin: 0 15px;
             animation: fadeIn 2s forwards;
-            margin-bottom: 15px;
+            min-width: 300px; /* Fixed width for carousel */
         }
 
         /* Footer Styles */
         footer {
             background-color: #1d1d1d;
+            padding: 20px;
             width: 100%;
-            padding: 10px;
             text-align: center;
             position: relative;
-            bottom: 0;
         }
         footer p {
             margin: 0;
-            color: #fff;
-        }
-
-        /* Social Media Icons */
-        .socials {
-            display: flex;
-            justify-content: center;
-            margin-top: 10px;
         }
         .socials a {
-            color: #fff;
             margin: 0 10px;
-            transition: transform 0.3s;
+            color: #FFD700;
+            transition: color 0.3s;
         }
         .socials a:hover {
-            transform: scale(1.2);
-            color: #ff4d00; /* Highlight color */
+            color: #FF4500; /* Hover color */
         }
 
-        /* Media Queries */
-        @media (max-width: 600px) {
-            .project-card {
-                width: 90%;
-            }
+        /* Responsive Styles */
+        @media (max-width: 768px) {
             header h1 {
                 font-size: 2em;
             }
             .hero h2 {
                 font-size: 2em;
+            }
+            .project-card {
+                width: 90%;
             }
         }
     </style>
@@ -217,73 +287,184 @@
 <body>
     <!-- Loading Screen -->
     <div id="loading">
-        <h1>Loading Marvel Experience...</h1>
+        <h1>Loading Marvel Universe...</h1>
         <div class="loader"></div>
     </div>
 
     <!-- Main Content -->
     <div id="main">
+        <!-- Header -->
         <header>
             <h1>My Marvel Portfolio</h1>
             <nav>
+                <a href="#hero">Home</a>
                 <a href="#projects">Projects</a>
+                <a href="#skills">Skills</a>
                 <a href="#about">About</a>
+                <a href="#testimonials">Testimonials</a>
                 <a href="#contact">Contact</a>
             </nav>
         </header>
 
         <!-- Hero Section -->
-        <div class="hero">
-            <h2>Welcome to My Heroic Journey!</h2>
+        <div class="hero" id="hero">
+            <h2>Welcome to My Marvel Portfolio!</h2>
         </div>
 
         <!-- Project Showcase -->
         <div class="project-container" id="projects">
+            <h2>My Projects</h2>
             <div class="project-card">
-                <h3>Project 1: Web Development</h3>
-                <p>Created a fully functional e-commerce website using React.</p>
+                <h3>Project 1: Avengers App</h3>
+                <p>A web app to manage your superhero team.</p>
+                <div class="details">
+                    <p>Technologies: HTML, CSS, JavaScript</p>
+                    <p>Description: This app allows you to create, view, and manage your superhero team with a cool UI.</p>
+                </div>
             </div>
             <div class="project-card">
-                <h3>Project 2: Game Development</h3>
-                <p>Developed a 2D platformer using Unity with exciting features.</p>
+                <h3>Project 2: Stark Industries Dashboard</h3>
+                <p>A dashboard for monitoring Stark Industries projects.</p>
+                <div class="details">
+                    <p>Technologies: React, Node.js</p>
+                    <p>Description: A full-stack application that provides insights into various projects at Stark Industries.</p>
+                </div>
             </div>
             <div class="project-card">
-                <h3>Project 3: AI Chatbot</h3>
-                <p>Built an AI chatbot using Python and machine learning techniques.</p>
+                <h3>Project 3: Wakanda Forever Website</h3>
+                <p>A website dedicated to the culture of Wakanda.</p>
+                <div class="details">
+                    <p>Technologies: HTML, CSS, JavaScript, Bootstrap</p>
+                    <p>Description: This website showcases the rich culture and advanced technology of Wakanda.</p>
+                </div>
             </div>
             <div class="project-card">
-                <h3>Project 4: Blockchain App</h3>
-                <p>Created a decentralized application using Ethereum blockchain.</p>
+                <h3>Project 4: Spider-Man Web Shooter Game</h3>
+                <p>A fun web-based game where you can shoot webs like Spider-Man.</p>
+                <div class="details">
+                    <p>Technologies: HTML, CSS, JavaScript</p>
+                    <p>Description: An interactive game where you swing through the city and complete missions.</p>
+                </div>
             </div>
-            <!-- Add more project cards as needed -->
+            <div class="project-card">
+                <h3>Project 5: Thor's Hammer Shop</h3>
+                <p>An online store for Thor's merchandise.</p>
+                <div class="details">
+                    <p>Technologies: HTML, CSS, JavaScript, PHP</p>
+                    <p>Description: A full e-commerce platform where you can buy exclusive Thor merchandise.</p>
+                </div>
+            </div>
         </div>
 
-        <!-- Testimonials -->
-        <div class="testimonial-container">
+        <!-- Skills Section -->
+        <div class="skills-container" id="skills">
+            <h2>My Skills</h2>
+            <div class="skill">
+                <div class="skill-name">JavaScript</div>
+                <div class="skill-bar">
+                    <div class="skill-progress" style="width: 90%;"></div>
+                </div>
+            </div>
+            <div class="skill">
+                <div class="skill-name">HTML</div>
+                <div class="skill-bar">
+                    <div class="skill-progress" style="width: 95%;"></div>
+                </div>
+            </div>
+            <div class="skill">
+                <div class="skill-name">CSS</div>
+                <div class="skill-bar">
+                    <div class="skill-progress" style="width: 85%;"></div>
+                </div>
+            </div>
+            <div class="skill">
+                <div class="skill-name">React</div>
+                <div class="skill-bar">
+                    <div class="skill-progress" style="width: 80%;"></div>
+                </div>
+            </div>
+            <div class="skill">
+                <div class="skill-name">Node.js</div>
+                <div class="skill-bar">
+                    <div class="skill-progress" style="width: 75%;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- About Section -->
+        <div id="about">
+            <h2>About Me</h2>
+            <p>Hello! I’m a passionate web developer with a love for all things Marvel. I enjoy creating applications that not only function well but also provide a fantastic user experience.</p>
+        </div>
+
+        <!-- Testimonials Section -->
+        <div class="testimonial-container" id="testimonials">
             <h2>What the Heroes Say:</h2>
-            <div class="testimonial">“An epic experience that rivals the Avengers!” - Tony Stark</div>
-            <div class="testimonial">“A web experience worthy of Asgard!” - Thor</div>
-            <div class="testimonial">“Absolutely smashing!” - Hulk</div>
-            <!-- Add more testimonials as needed -->
+            <div class="testimonial-carousel">
+                <div class="testimonial">“An epic experience that rivals the Avengers!” - Tony Stark</div>
+                <div class="testimonial">“A web experience worthy of Asgard!” - Thor</div>
+                <div class="testimonial">“Absolutely smashing!” - Hulk</div>
+                <div class="testimonial">“This portfolio is the real deal!” - Black Widow</div>
+                <div class="testimonial">“No one can match this creativity!” - Doctor Strange</div>
+                <div class="testimonial">“It's like the Infinity Gauntlet of portfolios!” - Thanos</div>
+            </div>
         </div>
-    </div>
 
-    <!-- Footer -->
-    <footer>
-        <p>Connect with me:</p>
-        <div class="socials">
-            <a href="#" target="_blank">Twitter</a>
-            <a href="#" target="_blank">GitHub</a>
-            <a href="#" target="_blank">LinkedIn</a>
+        <!-- Contact Section -->
+        <div id="contact">
+            <h2>Contact Me</h2>
+            <form id="contact-form">
+                <input type="text" id="name" name="name" placeholder="Your Name" required>
+                <input type="email" id="email" name="email" placeholder="Your Email" required>
+                <textarea id="message" name="message" rows="4" placeholder="Your Message" required></textarea>
+                <button type="submit">Send Message</button>
+            </form>
         </div>
-        <p>&copy; 2024 Marvel Portfolio. All rights reserved.</p>
-    </footer>
+
+        <!-- Footer -->
+        <footer>
+            <p>Connect with me:</p>
+            <div class="socials">
+                <a href="#" target="_blank">Twitter</a>
+                <a href="#" target="_blank">GitHub</a>
+                <a href="#" target="_blank">LinkedIn</a>
+            </div>
+            <p>&copy; 2024 Marvel Portfolio. All rights reserved.</p>
+        </footer>
+    </div>
 
     <script>
         // Hide loading screen and show main content
         window.addEventListener("load", function() {
             document.getElementById("loading").style.display = "none";
             document.getElementById("main").style.display = "flex";
+        });
+
+        // Contact form submission
+        document.getElementById("contact-form").addEventListener("submit", function(event) {
+            event.preventDefault();
+            alert("Thank you for your message, " + document.getElementById("name").value + "!");
+            // Clear form fields
+            document.getElementById("contact-form").reset();
+        });
+
+        // Testimonial Carousel
+        const testimonials = document.querySelectorAll('.testimonial');
+        let index = 0;
+
+        setInterval(() => {
+            testimonials[index].style.opacity = 0; // Fade out current testimonial
+            index = (index + 1) % testimonials.length; // Move to the next testimonial
+            testimonials[index].style.opacity = 1; // Fade in next testimonial
+        }, 3000); // Change every 3 seconds
+
+        // Skill progress animation
+        document.querySelectorAll('.skill-progress').forEach(skill => {
+            const width = skill.style.width;
+            skill.style.width = '0';
+            setTimeout(() => {
+                skill.style.width = width; // Animate to actual width
+            }, 100);
         });
     </script>
 </body>
