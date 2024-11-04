@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Epic Marvel Portfolio</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Separate CSS file -->
     <style>
         /* Basic Reset */
         * {
@@ -18,6 +19,13 @@
             background-color: #f0f0f0;
             color: #333;
             overflow-x: hidden;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        /* Dark Mode Styles */
+        body.dark-mode {
+            background-color: #121212;
+            color: #e0e0e0;
         }
 
         /* Loading Screen */
@@ -36,18 +44,6 @@
             justify-content: center;
             color: #fff;
         }
-        .loader {
-            border: 16px solid #f3f3f3;
-            border-top: 16px solid #3498db;
-            border-radius: 50%;
-            width: 100px;
-            height: 100px;
-            animation: spin 2s linear infinite;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
 
         /* Main Content */
         #main {
@@ -64,6 +60,9 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
         header h1 {
             font-size: 2.5em;
@@ -87,6 +86,7 @@
             color: white;
             padding: 100px 20px;
             text-align: center;
+            position: relative;
         }
         .hero h2 {
             font-size: 4em;
@@ -99,20 +99,17 @@
             background-color: #fff;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-        .project-container h2 {
-            text-align: center;
-            font-size: 2.5em;
-            margin-bottom: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
         }
         .project-card {
             background-color: #f9f9f9;
             border: 1px solid #ddd;
             border-radius: 8px;
             padding: 20px;
-            margin: 10px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            transition: transform 0.2s;
+            transition : transform 0.2s;
         }
         .project-card:hover {
             transform: scale(1.05);
@@ -288,6 +285,7 @@
                 <a href="#about">About</a>
                 <a href="#testimonials">Testimonials</a>
                 <a href="#contact">Contact</a>
+                <button id="dark-mode-toggle">Toggle Dark Mode</button>
             </nav>
         </header>
 
@@ -305,14 +303,6 @@
                 <div class="details">
                     <p><strong>Technologies:</strong> HTML, CSS, JavaScript</p>
                     <p><strong>Description:</strong> Create your own suit design, choose colors, and even test it out in a simulated environment!</p>
-                </div>
-            </div>
-            <div class="project-card">
-                <h3>Spider-Man Web Shooter</h3>
-                <p>An interactive web application that allows users to create and shoot virtual webs!</p>
-                <div class="details">
-                    <p><strong>Technologies:</strong> HTML, CSS, JavaScript</p>
-                    <p><strong>Description:</strong> Simulate web-shooting like Spidey with physics-based mechanics!</p>
                 </div>
             </div>
             <!-- Add more project cards here -->
@@ -389,7 +379,7 @@
                     <div class="skill-progress" style="width: 60%;"></div>
                 </div>
             </div>
-        </div>
+        </div >
 
         <!-- About Section -->
         <div id="about">
@@ -440,33 +430,38 @@
                 <a href="#">Twitter</a>
             </div>
         </footer>
-    </div>
 
-    <script>
-        // Loading Screen Logic
-        window.onload = function() {
-            document.getElementById("loading").style.display = "none";
-            document.getElementById("main").style.display = "flex";
-        };
+        <script>
+            // Loading Screen Logic
+            window.onload = function() {
+                document.getElementById("loading").style.display = "none";
+                document.getElementById("main").style.display = "flex";
+            };
 
-        // Testimonial Carousel Logic
-        const testimonials = document.querySelectorAll('.testimonial');
-        let currentIndex = 0;
+            // Dark Mode Toggle Logic
+            document.getElementById('dark-mode-toggle').addEventListener('click', function() {
+                document.body.classList.toggle('dark-mode');
+            });
 
-        function showNextTestimonial() {
-            testimonials[currentIndex].classList.remove('active');
-            currentIndex = (currentIndex + 1) % testimonials.length;
-            testimonials[currentIndex].classList.add('active');
-        }
+            // Testimonial Carousel Logic
+            const testimonials = document.querySelectorAll('.testimonial');
+            let currentIndex = 0;
 
-        setInterval(showNextTestimonial, 3000); // Change testimonial every 3 seconds
+            function showNextTestimonial() {
+                testimonials[currentIndex].classList.remove('active');
+                currentIndex = (currentIndex + 1) % testimonials.length;
+                testimonials[currentIndex].classList.add('active');
+            }
 
-        // Contact Form Submission
-        document.getElementById('contact-form').onsubmit = function(e) {
-            e.preventDefault();
-            alert('Thank you for your message! I will get back to you soon.');
-            this.reset(); // Clear the form
-        };
-    </script>
-</body>
+            setInterval(showNextTestimonial, 3000); // Change testimonial every 3 seconds
+
+            // Contact Form Submission
+            document.getElementById('contact-form').onsubmit = function(e) {
+                e.preventDefault();
+                alert('Thank you for your message! I will get back to you soon.');
+                this.reset(); // Clear the form
+            };
+        </script>
+    </body>
 </html>
+I hope this helps you enhance your portfolio!
