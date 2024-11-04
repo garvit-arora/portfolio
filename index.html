@@ -3,91 +3,288 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Marvel Inspired Portfolio</title>
+    <title>Marvel Portfolio</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto&display=swap">
     <style>
+        /* General Styles */
         body, html {
             margin: 0;
             padding: 0;
             height: 100vh;
             font-family: 'Roboto', sans-serif;
-            background-color: #000; /* Black background for Marvel feel */
+            background-color: #000; /* Black background */
             color: white;
+            overflow: hidden;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
         }
         
-        /* Title */
-        h1 {
-            font-size: 3em;
-            animation: pulse 2s infinite;
+        /* Loading Screen */
+        #loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            z-index: 9999;
+            animation: fadeIn 2s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        #loading h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            color: #FF4500; /* Orange-red color */
+            animation: pulse 1s infinite;
         }
         @keyframes pulse {
             0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
+            50% { transform: scale(1.05); }
             100% { transform: scale(1); }
         }
+        #loading .loader {
+            border: 16px solid #f3f3f3; /* Light grey */
+            border-top: 16px solid #3498db; /* Blue */
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 2s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
 
-        /* Navigation Menu */
+        /* Main Content Styles */
+        #main {
+            display: none; /* Hidden initially */
+            flex: 1;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: #1d1d1d; /* Darker background */
+            width: 100%;
+            padding: 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            color: #ff4d00; /* Bright orange */
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+        }
         nav {
-            display: flex;
-            margin: 20px 0;
+            margin-top: 10px;
         }
         nav a {
-            color: white;
+            color: #fff;
             text-decoration: none;
             margin: 0 15px;
             font-weight: bold;
             transition: color 0.3s;
         }
         nav a:hover {
-            color: #ff4d00; /* Orange highlight */
+            color: #ff4d00; /* Highlight color */
         }
 
-        /* Card Style */
-        .card {
-            background: rgba(255, 0, 0, 0.8); /* Red with transparency */
+        /* Hero Section Styles */
+        .hero {
+            background-image: url('https://example.com/marvel-background.jpg'); /* Replace with actual background */
+            height: 80vh;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            animation: slideIn 1.5s ease forwards;
+        }
+        @keyframes slideIn {
+            from { transform: translateY(-100%); }
+            to { transform: translateY(0); }
+        }
+        .hero h2 {
+            font-size: 3em;
+            text-align: center;
+            color: #FF4500;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+            animation: fadeIn 2s ease forwards;
+        }
+
+        /* Project Cards */
+        .project-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .project-card {
+            background: rgba(255, 0, 0, 0.8); /* Red background */
             padding: 20px;
             margin: 10px;
             border-radius: 10px;
             box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
             width: 300px;
-            transition: transform 0.3s;
+            transition: transform 0.3s, box-shadow 0.3s;
         }
-        .card:hover {
+        .project-card:hover {
             transform: scale(1.05);
+            box-shadow: 0 0 25px rgba(255, 255, 255, 1);
         }
-        
-        /* Footer */
+        .project-card h3 {
+            margin: 0;
+            font-size: 1.5em;
+            color: #FFD700; /* Gold color */
+        }
+        .project-card p {
+            font-size: 1em;
+            color: #fff;
+        }
+
+        /* Testimonials */
+        .testimonial-container {
+            margin-top: 40px;
+            padding: 20px;
+            width: 100%;
+            text-align: center;
+            background: rgba(30, 30, 30, 0.8);
+        }
+        .testimonial {
+            font-size: 1.2em;
+            color: #fff;
+            animation: fadeIn 2s forwards;
+            margin-bottom: 15px;
+        }
+
+        /* Footer Styles */
         footer {
-            margin-top: auto;
+            background-color: #1d1d1d;
+            width: 100%;
             padding: 10px;
             text-align: center;
+            position: relative;
+            bottom: 0;
+        }
+        footer p {
+            margin: 0;
+            color: #fff;
+        }
+
+        /* Social Media Icons */
+        .socials {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+        .socials a {
+            color: #fff;
+            margin: 0 10px;
+            transition: transform 0.3s;
+        }
+        .socials a:hover {
+            transform: scale(1.2);
+            color: #ff4d00; /* Highlight color */
+        }
+
+        /* Media Queries */
+        @media (max-width: 600px) {
+            .project-card {
+                width: 90%;
+            }
+            header h1 {
+                font-size: 2em;
+            }
+            .hero h2 {
+                font-size: 2em;
+            }
         }
     </style>
 </head>
 <body>
-    <h1>Marvel Inspired Portfolio</h1>
-    <nav>
-        <a href="#projects">Projects</a>
-        <a href="#about">About</a>
-        <a href="#contact">Contact</a>
-    </nav>
-
-    <div class="card">
-        <h2>Project 1: Web Development</h2>
-        <p>Created a fully functional e-commerce website.</p>
-    </div>
-    <div class="card">
-        <h2>Project 2: Game Development</h2>
-        <p>Developed a 2D platformer using Unity.</p>
+    <!-- Loading Screen -->
+    <div id="loading">
+        <h1>Loading Marvel Experience...</h1>
+        <div class="loader"></div>
     </div>
 
+    <!-- Main Content -->
+    <div id="main">
+        <header>
+            <h1>My Marvel Portfolio</h1>
+            <nav>
+                <a href="#projects">Projects</a>
+                <a href="#about">About</a>
+                <a href="#contact">Contact</a>
+            </nav>
+        </header>
+
+        <!-- Hero Section -->
+        <div class="hero">
+            <h2>Welcome to My Heroic Journey!</h2>
+        </div>
+
+        <!-- Project Showcase -->
+        <div class="project-container" id="projects">
+            <div class="project-card">
+                <h3>Project 1: Web Development</h3>
+                <p>Created a fully functional e-commerce website using React.</p>
+            </div>
+            <div class="project-card">
+                <h3>Project 2: Game Development</h3>
+                <p>Developed a 2D platformer using Unity with exciting features.</p>
+            </div>
+            <div class="project-card">
+                <h3>Project 3: AI Chatbot</h3>
+                <p>Built an AI chatbot using Python and machine learning techniques.</p>
+            </div>
+            <div class="project-card">
+                <h3>Project 4: Blockchain App</h3>
+                <p>Created a decentralized application using Ethereum blockchain.</p>
+            </div>
+            <!-- Add more project cards as needed -->
+        </div>
+
+        <!-- Testimonials -->
+        <div class="testimonial-container">
+            <h2>What the Heroes Say:</h2>
+            <div class="testimonial">“An epic experience that rivals the Avengers!” - Tony Stark</div>
+            <div class="testimonial">“A web experience worthy of Asgard!” - Thor</div>
+            <div class="testimonial">“Absolutely smashing!” - Hulk</div>
+            <!-- Add more testimonials as needed -->
+        </div>
+    </div>
+
+    <!-- Footer -->
     <footer>
-        &copy; 2024 Garvit. All rights reserved.
+        <p>Connect with me:</p>
+        <div class="socials">
+            <a href="#" target="_blank">Twitter</a>
+            <a href="#" target="_blank">GitHub</a>
+            <a href="#" target="_blank">LinkedIn</a>
+        </div>
+        <p>&copy; 2024 Marvel Portfolio. All rights reserved.</p>
     </footer>
+
+    <script>
+        // Hide loading screen and show main content
+        window.addEventListener("load", function() {
+            document.getElementById("loading").style.display = "none";
+            document.getElementById("main").style.display = "flex";
+        });
+    </script>
 </body>
 </html>
