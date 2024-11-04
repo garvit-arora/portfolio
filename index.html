@@ -10,7 +10,7 @@
             margin: 0;
             padding: 0;
             overflow: hidden;
-            background: #1b1b1b;
+            background: black;
             color: #00ff9d;
             font-family: 'Courier New', Courier, monospace;
             display: flex;
@@ -26,7 +26,7 @@
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: black;
+            background: rgba(0, 0, 0, 0.9);
             color: #00ff9d;
             display: flex;
             align-items: center;
@@ -42,55 +42,39 @@
             to { opacity: 0; visibility: hidden; }
         }
 
-        /* Code drop effect */
-        .code-drop {
+        /* Digital rain effect */
+        .rain {
             position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            z-index: 1;
             overflow: hidden;
+            z-index: 0;
         }
 
-        .code-drop span {
+        .rain span {
             position: absolute;
-            color: rgba(0, 255, 157, 0.5);
-            font-size: 1.2em;
-            animation: codeDrop 3s linear infinite;
-        }
-
-        @keyframes codeDrop {
-            from { top: -100px; }
-            to { top: 100vh; }
-        }
-
-        /* Typewriter effect for title */
-        .title {
-            font-size: 2.5em;
-            color: #00e6ff;
+            color: rgba(0, 255, 157, 0.8);
             white-space: nowrap;
-            overflow: hidden;
-            border-right: 0.15em solid #00ff9d;
-            width: 0;
-            animation: typing 3.5s steps(30, end), blink-caret 0.5s step-end infinite;
+            user-select: none;
+            font-size: 1.2em;
+            animation: fall linear infinite;
         }
 
-        @keyframes typing {
-            from { width: 0; }
-            to { width: 100%; }
+        @keyframes fall {
+            0% { top: -10%; }
+            100% { top: 100%; }
         }
 
-        @keyframes blink-caret {
-            from, to { border-color: transparent; }
-            50% { border-color: #00ff9d; }
-        }
-
-        /* Panel animations */
+        /* Circular Panel Container */
         .panel-container {
             position: relative;
-            z-index: 2;
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
+            z-index: 1;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
             opacity: 0;
             animation: fadeIn 2s ease-in forwards;
             animation-delay: 4s;
@@ -101,40 +85,44 @@
             to { opacity: 1; }
         }
 
-        /* Style each panel uniquely */
+        /* Styling for each detail */
         .panel {
-            background: rgba(28, 28, 28, 0.9);
-            padding: 25px;
-            border-radius: 15px;
+            background: rgba(28, 28, 28, 0.8);
+            border-radius: 50%;
+            width: 200px;
+            height: 200px;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 1.2em;
-            color: #00ff9d;
-            text-align: center;
-            box-shadow: 0 0 15px rgba(0, 255, 157, 0.6);
-            transform-origin: top left;
-            animation: panelAnimation 1.5s ease forwards;
+            margin: 20px;
+            box-shadow: 0 0 20px rgba(0, 255, 157, 0.6);
+            position: relative;
+            animation: popIn 1.5s ease forwards;
         }
 
-        @keyframes panelAnimation {
-            0% { opacity: 0; transform: rotateY(90deg) translateX(-50vw); }
-            100% { opacity: 1; transform: rotateY(0) translateX(0); }
+        @keyframes popIn {
+            from { transform: scale(0); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
         }
 
+        /* Unique styles for panels */
         #panel1 { background: #002f3e; }
         #panel2 { background: #1a1a1a; }
         #panel3 { background: #333; }
         #panel4 { background: #3d3d3d; }
 
-        /* Glowing effect for panels */
-        .glow {
-            animation: glowEffect 1.5s ease-in-out infinite alternate;
+        /* Text inside panels */
+        .panel strong {
+            font-size: 1.5em;
+            color: #00e6ff;
         }
 
-        @keyframes glowEffect {
-            from { box-shadow: 0 0 10px #00ff9d; }
-            to { box-shadow: 0 0 20px #00ff9d, 0 0 30px #00ff9d; }
+        .panel p {
+            margin: 0;
+            padding: 5px;
+            text-align: center;
+            color: #00ff9d;
+            font-size: 1em;
         }
     </style>
 </head>
@@ -143,45 +131,43 @@
     <!-- Loading Screen -->
     <div id="loadingScreen">Loading Garvit's Tech Space...</div>
 
-    <!-- Code Drop Effect -->
-    <div class="code-drop"></div>
-
-    <!-- Title with Typewriter Effect -->
-    <div class="title">Garvit's Tech Space</div>
+    <!-- Digital Rain Effect -->
+    <div class="rain"></div>
 
     <!-- Panel Container -->
     <div class="panel-container">
-        <div class="panel glow" id="panel1">
-            <strong>Garvit Arora</strong><br>CSE Student, BPIT
+        <div class="panel" id="panel1">
+            <strong>Garvit Arora</strong>
+            <p>CSE Student, BPIT</p>
         </div>
         <div class="panel" id="panel2">
-            Projects: Portfolio Website, Coding Challenges
+            <strong>Projects</strong>
+            <p>Portfolio Website<br>Coding Challenges</p>
         </div>
-        <div class="panel glow" id="panel3">
-            Interests: Blockchain, Web Dev, AI
+        <div class="panel" id="panel3">
+            <strong>Interests</strong>
+            <p>Blockchain, Web Dev, AI</p>
         </div>
         <div class="panel" id="panel4">
-            Future Goals: MNC Placement
+            <strong>Future Goals</strong>
+            <p>MNC Placement</p>
         </div>
     </div>
 
     <script>
-        // JavaScript for the code drop effect
-        const codeContainer = document.querySelector('.code-drop');
-        const chars = "0123456789ABCDEF";
+        // Digital Rain Effect
+        const rainContainer = document.querySelector('.rain');
+        const chars = "0123456789ABCDEF$@#%&*";
+        const rainAmount = 150; // Number of falling characters
 
-        function createCodeDrop() {
-            for (let i = 0; i < 150; i++) {
-                const span = document.createElement("span");
-                span.style.left = `${Math.random() * 100}vw`;
-                span.style.animationDuration = `${Math.random() * 2 + 2}s`;
-                span.style.fontSize = `${Math.random() * 1.5 + 1}em`;
-                span.textContent = chars[Math.floor(Math.random() * chars.length)];
-                codeContainer.appendChild(span);
-            }
+        for (let i = 0; i < rainAmount; i++) {
+            const span = document.createElement("span");
+            span.textContent = chars[Math.floor(Math.random() * chars.length)];
+            span.style.left = `${Math.random() * 100}vw`;
+            span.style.fontSize = `${Math.random() * 1.5 + 1}em`;
+            span.style.animationDuration = `${Math.random() * 2 + 3}s`; // Random duration
+            rainContainer.appendChild(span);
         }
-
-        createCodeDrop();
     </script>
 </body>
 </html>
