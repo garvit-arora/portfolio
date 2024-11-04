@@ -3,135 +3,163 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Garvit Arora - Hacker Vibes</title>
+    <title>Garvit Arora - Showcase</title>
     <style>
-        /* Basic hacker-style setup */
+        /* Basic setup */
         body, html {
             margin: 0;
             padding: 0;
             overflow: hidden;
-            background-color: black;
-            color: #00ff00; /* Matrix-style green */
-            font-family: monospace;
-            font-size: 1.2em;
-            letter-spacing: 1px;
+            font-family: Arial, sans-serif;
+            background: black;
+            color: #00ff9d;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
         }
 
-        /* Loading screen styling */
-        #loading-screen {
-            position: fixed;
+        /* Loading screen */
+        #loadingScreen {
+            position: absolute;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
             background: black;
-            color: #00ff00;
+            color: #00ff9d;
             display: flex;
             justify-content: center;
             align-items: center;
             font-size: 2em;
-            z-index: 1000;
+            z-index: 10;
+            animation: fadeOut 4s ease-in-out forwards;
+            animation-delay: 3s;
         }
 
-        /* Main content container */
-        #content {
-            display: none; /* Hidden initially, shown after loading */
-            padding: 20px;
+        @keyframes fadeOut {
+            to { opacity: 0; visibility: hidden; }
         }
 
-        /* Matrix rain effect styling */
-        .matrix {
-            position: fixed;
+        /* Code drop effect */
+        .code-drop {
+            position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             overflow: hidden;
-            z-index: 0;
-        }
-        
-        /* Style for individual falling characters */
-        .matrix span {
-            color: #00ff00;
-            opacity: 0.5;
-            animation: rain 1s linear infinite;
-            font-size: 1.5em;
-            display: inline-block;
+            z-index: 1;
         }
 
-        /* Animation for matrix rain effect */
-        @keyframes rain {
-            0% { opacity: 0; transform: translateY(-100vh); }
-            100% { opacity: 1; transform: translateY(100vh); }
-        }
-
-        /* Contact info styling */
-        #info {
-            z-index: 10;
+        .code-drop span {
             position: absolute;
-            top: 10%;
-            left: 5%;
+            top: -100px;
+            color: rgba(0, 255, 157, 0.5);
+            font-size: 1em;
+            animation: codeDrop 3s linear infinite;
         }
 
-        .info-item {
-            margin-bottom: 15px;
-            font-size: 1.2em;
+        @keyframes codeDrop {
+            from { top: -100px; }
+            to { top: 100vh; }
+        }
+
+        /* Animating panels */
+        .panel-container {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            gap: 20px;
+            opacity: 0;
+            animation: slideIn 2s ease-in forwards;
+            animation-delay: 4s;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(100px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .panel {
+            background: #1c1c1c;
+            padding: 20px;
+            border-radius: 10px;
+            width: 250px;
+            height: 150px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.1em;
+            text-align: center;
+            box-shadow: 0 0 15px #00ff9d;
+            animation: float 6s ease-in-out infinite alternate;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Background styles for different panels */
+        #panel1 { background: #002833; color: #00e6ff; }
+        #panel2 { background: #282c34; color: #f7f7f7; }
+        #panel3 { background: #333333; color: #ff4f81; }
+        #panel4 { background: #3d3d3d; color: #ff9f1c; }
+
+        /* Add some glowing effect */
+        .glow {
+            animation: glowEffect 1.5s ease-in-out infinite alternate;
+        }
+
+        @keyframes glowEffect {
+            from { box-shadow: 0 0 10px #00ff9d; }
+            to { box-shadow: 0 0 20px #00ff9d, 0 0 30px #00ff9d; }
         }
     </style>
 </head>
 <body>
-
     <!-- Loading Screen -->
-    <div id="loading-screen">Initializing...</div>
+    <div id="loadingScreen">Loading Garvit's Tech Space...</div>
 
-    <!-- Matrix Rain Effect -->
-    <div class="matrix" id="matrix"></div>
+    <!-- Code Drop Effect -->
+    <div class="code-drop">
+        <!-- Randomly generate span elements with the "code" effect -->
+    </div>
 
-    <!-- Main Content -->
-    <div id="content">
-        <div id="info">
-            <div class="info-item">Name: Garvit Arora</div>
-            <div class="info-item">College: BPIT</div>
-            <div class="info-item">Skills: Web Development, C++, Python, Hackathon Pro</div>
-            <div class="info-item">Location: Hackerspace HQ</div>
+    <!-- Panel Container -->
+    <div class="panel-container">
+        <div class="panel glow" id="panel1">
+            <strong>Garvit Arora</strong><br>CSE Student, BPIT
+        </div>
+        <div class="panel" id="panel2">
+            Projects: Portfolio Website, Coding Challenges
+        </div>
+        <div class="panel glow" id="panel3">
+            Interests: Blockchain, Web Dev, AI
+        </div>
+        <div class="panel" id="panel4">
+            Future Goals: MNC Placement
         </div>
     </div>
 
     <script>
-        // Loading screen hide after 5 seconds
-        setTimeout(() => {
-            document.getElementById("loading-screen").style.display = "none";
-            document.getElementById("content").style.display = "block";
-        }, 5000);
+        // JavaScript to create code drop effect with random characters
+        const codeContainer = document.querySelector('.code-drop');
+        const characters = "0123456789ABCDEF";
 
-        // Function to generate the matrix rain effect
-        function createMatrixRain() {
-            const matrixContainer = document.getElementById('matrix');
-            const columns = Math.floor(window.innerWidth / 20);
-
-            for (let i = 0; i < columns; i++) {
-                const column = document.createElement('div');
-                column.style.position = 'absolute';
-                column.style.left = `${i * 20}px`;
-                matrixContainer.appendChild(column);
-
-                // Generate random characters for each column
-                const createRainCharacter = () => {
-                    const span = document.createElement('span');
-                    span.innerText = String.fromCharCode(0x30A0 + Math.floor(Math.random() * 96)); // Random katakana
-                    column.appendChild(span);
-
-                    // Remove span after animation ends
-                    span.addEventListener("animationend", () => column.removeChild(span));
-                };
-
-                // Continuously create characters with random intervals
-                setInterval(createRainCharacter, Math.random() * 100);
+        function createCodeDrop() {
+            for (let i = 0; i < 100; i++) {
+                const span = document.createElement("span");
+                span.style.left = `${Math.random() * 100}vw`;
+                span.style.animationDuration = `${Math.random() * 2 + 2}s`;
+                span.style.fontSize = `${Math.random() * 1.5 + 1}em`;
+                span.innerText = characters[Math.floor(Math.random() * characters.length)];
+                codeContainer.appendChild(span);
             }
         }
 
-        // Initialize matrix rain effect
-        createMatrixRain();
+        createCodeDrop();
     </script>
 </body>
 </html>
