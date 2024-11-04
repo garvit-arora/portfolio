@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Garvit's Tech Space - Windows 7 Simulation</title>
+    <title>Windows 7 Simulation Portfolio</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Segoe+UI&display=swap">
     <style>
         body, html {
@@ -11,21 +11,15 @@
             padding: 0;
             height: 100vh;
             overflow: hidden;
-            background-color: #0078d7; /* Windows 7 Blue */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0078d7; /* Windows 7 Blue */
             display: flex;
             justify-content: center;
             align-items: center;
             position: relative;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-
-        /* Fade in animation */
-        @keyframes fadeIn {
-            0% { opacity: 0; }
-            100% { opacity: 1; }
-        }
-
-        /* Loading Screen Styles */
+        
+        /* Loading Screen */
         .loading-screen {
             position: absolute;
             top: 0;
@@ -41,7 +35,10 @@
             z-index: 1000;
             animation: fadeIn 1s forwards;
         }
-
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
         .loading-text {
             font-size: 24px;
             margin: 10px;
@@ -61,19 +58,15 @@
             padding: 0 10px;
             box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);
             z-index: 10;
-            display: none; /* Initially hidden */
         }
-
         .start-button {
             background: #0078d7;
             color: white;
             padding: 5px 10px;
             border-radius: 3px;
             cursor: pointer;
-            transition: background 0.3s;
             font-weight: bold;
         }
-
         .start-button:hover {
             background: #005a9e;
         }
@@ -87,12 +80,9 @@
             right: 10px;
             display: flex;
             flex-wrap: wrap;
-            align-items: flex-start;
-            justify-content: flex-start;
             padding: 10px;
             display: none; /* Initially hidden */
         }
-
         .icon {
             background: #fff;
             border: 1px solid #ccc;
@@ -108,13 +98,12 @@
             transition: transform 0.3s, box-shadow 0.3s;
             position: relative;
             overflow: hidden;
+            cursor: pointer;
         }
-
         .icon:hover {
             transform: translateY(-5px);
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
-
         .icon img {
             width: 50px;
             height: 50px;
@@ -133,7 +122,6 @@
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
             animation: slideIn 0.5s forwards;
         }
-
         @keyframes slideIn {
             from {
                 transform: translateY(-20px);
@@ -145,155 +133,117 @@
             }
         }
 
-        /* Info Box for Details */
+        /* Styles for Info Boxes */
         .info-box {
             background: rgba(255, 255, 255, 0.8);
             border: 1px solid #ccc;
             border-radius: 5px;
             padding: 10px;
             margin: 10px 0;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-            animation: fadeIn 0.5s forwards;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        .info-title {
+            font-weight: bold;
+            margin-bottom: 5px;
         }
 
-        /* Effect for Terminal */
-        .terminal {
+        /* Animation for Icons */
+        .animate-icon {
+            animation: bounce 1s infinite alternate;
+        }
+        @keyframes bounce {
+            from { transform: translateY(0); }
+            to { transform: translateY(-10px); }
+        }
+
+        /* Additional Styling for Realism */
+        .desktop-background {
+            background: url('https://i.imgur.com/CiB27Dg.jpg') no-repeat center center; 
+            background-size: cover;
             position: absolute;
-            top: 20%;
-            left: 20%;
-            width: 60%;
-            height: 60%;
-            background: black;
-            color: green;
-            padding: 20px;
-            border-radius: 10px;
-            display: none;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 18px;
-            animation: slideIn 0.5s forwards;
-            overflow-y: scroll;
-        }
-
-        /* Cursor blinking */
-        .cursor {
-            display: inline-block;
-            width: 10px;
-            height: 20px;
-            background: green;
-            animation: blink 1s infinite;
-            vertical-align: middle;
-        }
-
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
-        }
-
-        /* Footer info */
-        .footer-info {
-            position: absolute;
+            top: 0;
             bottom: 0;
-            right: 10px;
-            color: white;
-            font-size: 12px;
+            left: 0;
+            right: 0;
+            z-index: -1;
         }
     </style>
 </head>
 <body>
-    <div class="loading-screen">
-        <h1 class="loading-text">Loading Your Experience...</h1>
-        <p class="loading-text">Initializing Windows 7 Theme...</p>
-        <p class="loading-text">Setting Up Desktop Environment...</p>
-        <p class="loading-text">Finalizing Configuration...</p>
+
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-text">Loading...</div>
+        <div class="loading-text">Please wait</div>
+        <div class="loading-text">Almost there...</div>
+        <div class="loading-text">Initializing...</div>
     </div>
 
+    <!-- Desktop Background -->
+    <div class="desktop-background"></div>
+
+    <!-- Taskbar -->
     <div class="taskbar">
-        <div class="start-button">Start</div>
-        <div class="footer-info">© 2024 Garvit's Tech Space</div>
+        <div class="start-button" id="startButton">Start</div>
+        <div class="taskbar-items">My Computer | Documents | Settings</div>
     </div>
 
-    <div class="desktop">
-        <div class="icon" onclick="showCard('resume')">
-            <img src="https://img.icons8.com/material-outlined/100/000000/file.png" alt="Resume">
-            <span>Resume</span>
+    <!-- Desktop Area -->
+    <div class="desktop" id="desktop">
+        <div class="icon" id="resumeIcon">
+            <img src="https://i.imgur.com/N5Iu7Z1.png" alt="Resume">
+            <div>My Resume</div>
         </div>
-        <div class="icon" onclick="showCard('projects')">
-            <img src="https://img.icons8.com/material-outlined/100/000000/project.png" alt="Projects">
-            <span>Projects</span>
+        <div class="icon" id="portfolioIcon">
+            <img src="https://i.imgur.com/FQ5NlwK.png" alt="Portfolio">
+            <div>Portfolio</div>
         </div>
-        <div class="icon" onclick="showCard('skills')">
-            <img src="https://img.icons8.com/material-outlined/100/000000/settings.png" alt="Skills">
-            <span>Skills</span>
-        </div>
-        <div class="icon" onclick="showCard('contact')">
-            <img src="https://img.icons8.com/material-outlined/100/000000/contacts.png" alt="Contact">
-            <span>Contact</span>
-        </div>
-        <div class="icon" onclick="openTerminal()">
-            <img src="https://img.icons8.com/material-outlined/100/000000/terminal.png" alt="Terminal">
-            <span>Terminal</span>
+        <div class="icon" id="bpitIcon">
+            <img src="https://i.imgur.com/ORz1rV5.png" alt="BPIT">
+            <div>BPIT</div>
         </div>
     </div>
 
-    <div class="card" id="resume">
-        <h2>Resume</h2>
-        <p>Computer Science and Engineering Student</p>
-        <p>B.P.I.T - 2024</p>
-        <p>Email: garvit@example.com</p>
-    </div>
-
-    <div class="card" id="projects">
-        <h2>Projects</h2>
-        <p>1. Portfolio Website</p>
-        <p>2. Chat Application</p>
-        <p>3. E-commerce Site</p>
-    </div>
-
-    <div class="card" id="skills">
-        <h2>Skills</h2>
-        <p>C++, Python, JavaScript, Web Development</p>
-    </div>
-
-    <div class="card" id="contact">
-        <h2>Contact</h2>
-        <p>LinkedIn: linkedin.com/in/garvit</p>
-        <p>GitHub: github.com/garvit</p>
-    </div>
-
-    <div class="terminal" id="terminal">
-        <h2>Terminal</h2>
-        <p>Welcome to Garvit's Tech Space</p>
-        <p>Type 'help' to see available commands.</p>
-        <div class="cursor"></div>
+    <!-- Info Boxes -->
+    <div class="card" id="infoBox">
+        <div class="info-title">Welcome to Garvit's Tech Space</div>
+        <div class="info-box">Name: Garvit</div>
+        <div class="info-box">College: BPIT</div>
+        <div class="info-box">Hobbies: Coding, Gym, Music</div>
+        <div class="info-box">Skills: C++, Python, Web Dev</div>
+        <div class="info-box">Contact: garvit@example.com</div>
     </div>
 
     <script>
-        // Loading screen logic
-        window.onload = function() {
-            setTimeout(() => {
-                document.querySelector('.loading-screen').style.display = 'none';
-                document.querySelector('.desktop').style.display = 'flex';
-                document.querySelector('.taskbar').style.display = 'flex';
-            }, 4000); // 4 seconds for loading
-        };
+        // Loading screen timeout
+        setTimeout(() => {
+            document.getElementById('loadingScreen').style.display = 'none';
+            document.getElementById('desktop').style.display = 'flex';
+            document.getElementById('taskbar').style.display = 'flex';
+            document.getElementById('infoBox').style.display = 'block';
+        }, 4000);
 
-        function showCard(id) {
-            const cards = document.querySelectorAll('.card');
-            cards.forEach(card => card.style.display = 'none'); // Hide all cards
-            document.getElementById(id).style.display = 'block'; // Show selected card
-        }
-
-        function openTerminal() {
-            const terminal = document.getElementById('terminal');
-            terminal.style.display = 'block';
-            terminal.scrollTop = terminal.scrollHeight; // Scroll to bottom
-        }
-
-        document.querySelector('.start-button').addEventListener('click', () => {
-            const cards = document.querySelectorAll('.card');
-            cards.forEach(card => card.style.display = 'none'); // Hide all cards
-            document.getElementById('resume').style.display = 'block'; // Show Resume as default
+        // Taskbar Start button functionality
+        document.getElementById('startButton').addEventListener('click', () => {
+            alert('Start Menu opened!');
         });
+
+        // Icons hover effects
+        const icons = document.querySelectorAll('.icon');
+        icons.forEach(icon => {
+            icon.addEventListener('mouseover', () => {
+                icon.classList.add('animate-icon');
+            });
+            icon.addEventListener('mouseout', () => {
+                icon.classList.remove('animate-icon');
+            });
+            icon.addEventListener('click', () => {
+                alert(`${icon.textContent} clicked!`);
+            });
+        });
+
+        // Show info box when desktop is ready
+        document.getElementById('infoBox').style.display = 'none';
     </script>
 </body>
 </html>
