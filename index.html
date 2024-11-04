@@ -3,16 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Garvit's Tech Space</title>
+    <title>Garvit's Tech Space - Windows 7 Simulation</title>
     <style>
         body, html {
             margin: 0;
             padding: 0;
-            background: #d3d3d3; /* Light grey for Windows 7 feel */
+            background: url('https://wallpapercave.com/wp/wp6944441.jpg') no-repeat center center fixed; /* Windows 7 wallpaper */
+            background-size: cover;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             height: 100vh;
             overflow: hidden;
             position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            animation: fadeIn 3s forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         /* Taskbar Styling */
@@ -28,6 +39,7 @@
             align-items: center;
             padding: 0 10px;
             box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);
+            z-index: 10;
         }
 
         .taskbar .start-button {
@@ -36,118 +48,152 @@
             padding: 5px 10px;
             border-radius: 3px;
             cursor: pointer;
+            transition: background 0.3s;
         }
 
-        /* Terminal Window */
-        .terminal {
-            width: 400px;
-            height: 300px;
-            background: #000; /* Black background for terminal */
-            color: #00ff00; /* Green text color */
+        .taskbar .start-button:hover {
+            background: #005a9e; /* Darker blue on hover */
+        }
+
+        .taskbar div {
+            color: white;
+        }
+
+        /* Desktop Icons */
+        .icon {
+            width: 80px;
+            height: 80px;
+            margin: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .icon:hover {
+            transform: scale(1.1);
+        }
+
+        .icon img {
+            width: 50px;
+            height: 50px;
+            margin-bottom: 5px;
+        }
+
+        /* Hidden Details */
+        .details {
+            display: none;
             position: absolute;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            padding: 10px;
-            border-radius: 10px;
-            display: none; /* Hidden initially */
-            animation: openTerminal 7s forwards; /* Terminal opening animation */
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 5px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            z-index: 20;
+            animation: slideIn 0.5s forwards;
         }
 
-        @keyframes openTerminal {
-            from {
-                height: 0;
-                opacity: 0;
-            }
-            to {
-                height: 300px;
-                opacity: 1;
-            }
-        }
-
-        /* Display Information */
-        .info {
-            opacity: 0;
-            animation: showInfo 7s forwards;
-            animation-delay: 1s; /* Delay for the terminal opening */
-        }
-
-        @keyframes showInfo {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .info h2 {
-            margin: 5px 0;
-            font-size: 1.5em;
-        }
-
-        .info p {
-            margin: 2px 0;
+        @keyframes slideIn {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
 
         /* Loading Screen */
-        #loadingScreen {
+        .loading-screen {
             position: absolute;
             top: 0;
             left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(0, 0, 0, 0.85);
+            right: 0;
+            bottom: 0;
+            background: #000;
+            color: white;
             display: flex;
-            align-items: center;
             justify-content: center;
-            font-size: 2em;
-            color: #45a29e;
-            z-index: 10;
-            animation: fadeOut 4s ease forwards;
-            animation-delay: 3s; /* Keep loading screen for a few seconds */
+            align-items: center;
+            font-size: 24px;
+            z-index: 100;
+            opacity: 1;
+            animation: fadeOut 4s forwards;
         }
 
         @keyframes fadeOut {
-            to { opacity: 0; visibility: hidden; }
+            from { opacity: 1; }
+            to { opacity: 0; }
         }
     </style>
 </head>
 <body>
 
     <!-- Loading Screen -->
-    <div id="loadingScreen">Loading... Please Wait...</div>
-
-    <!-- Terminal Window -->
-    <div class="terminal" id="terminalWindow">
-        <pre class="info">
-        ID Card: 
-        Name: Garvit Arora
-        Major: CSE Student
-        College: BPIT
-        Interests: Blockchain, AI, Web Dev
-        Future Goals: MNC Placement
-        </pre>
+    <div class="loading-screen">
+        Loading... Please Wait...
     </div>
 
     <!-- Taskbar -->
     <div class="taskbar">
-        <div class="start-button">Start</div>
-        <div>Taskbar Items</div>
+        <div class="start-button" onclick="showStartMenu()">Start</div>
+        <div>Time: <span id="time"></span></div>
+    </div>
+
+    <!-- Desktop Icons -->
+    <div class="desktop-icons">
+        <div class="icon" onclick="showDetails('resume')">
+            <img src="https://cdn-icons-png.flaticon.com/512/3640/3640338.png" alt="Resume Icon">
+            Resume
+        </div>
+        <div class="icon" onclick="showDetails('projects')">
+            <img src="https://cdn-icons-png.flaticon.com/512/10839/10839645.png" alt="Projects Icon">
+            Projects
+        </div>
+        <div class="icon" onclick="showDetails('contact')">
+            <img src="https://cdn-icons-png.flaticon.com/512/4333/4333596.png" alt="Contact Icon">
+            Contact
+        </div>
+    </div>
+
+    <!-- Details Popups -->
+    <div class="details" id="resume">
+        <h2>Garvit's Resume</h2>
+        <p>Details about your education, experience, and skills go here.</p>
+        <button onclick="closeDetails()">Close</button>
+    </div>
+    <div class="details" id="projects">
+        <h2>My Projects</h2>
+        <p>A showcase of my projects will be displayed here.</p>
+        <button onclick="closeDetails()">Close</button>
+    </div>
+    <div class="details" id="contact">
+        <h2>Contact Information</h2>
+        <p>Email: garvit@example.com</p>
+        <button onclick="closeDetails()">Close</button>
     </div>
 
     <script>
-        // Show terminal window after loading
-        setTimeout(() => {
-            document.getElementById('terminalWindow').style.display = 'block';
-        }, 4000); // Show terminal after 4 seconds
+        // Function to update time
+        setInterval(() => {
+            const now = new Date();
+            document.getElementById('time').textContent = now.toLocaleTimeString();
+        }, 1000);
 
-        // Automatically close the loading screen after the specified delay
+        // Function to show details
+        function showDetails(section) {
+            const details = document.getElementById(section);
+            details.style.display = 'block';
+        }
+
+        // Function to close details
+        function closeDetails() {
+            const details = document.querySelectorAll('.details');
+            details.forEach(detail => detail.style.display = 'none');
+        }
+
+        // Function to show start menu (Placeholder)
+        function showStartMenu() {
+            alert('Start Menu: Here you can access applications and settings.');
+        }
+
+        // Remove loading screen after 4 seconds
         setTimeout(() => {
-            document.getElementById('loadingScreen').style.opacity = '0';
-        }, 3000);
+            document.querySelector('.loading-screen').style.display = 'none';
+        }, 4000);
     </script>
 </body>
 </html>
