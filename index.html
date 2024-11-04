@@ -3,247 +3,91 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Windows 7 Simulation Portfolio</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Segoe+UI&display=swap">
+    <title>Marvel Inspired Portfolio</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto&display=swap">
     <style>
         body, html {
             margin: 0;
             padding: 0;
             height: 100vh;
-            overflow: hidden;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #0078d7; /* Windows 7 Blue */
+            font-family: 'Roboto', sans-serif;
+            background-color: #000; /* Black background for Marvel feel */
+            color: white;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
-            position: relative;
+            justify-content: center;
+            overflow: hidden;
         }
         
-        /* Loading Screen */
-        .loading-screen {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: #000;
-            color: #fff;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            animation: fadeIn 1s forwards;
+        /* Title */
+        h1 {
+            font-size: 3em;
+            animation: pulse 2s infinite;
         }
-        @keyframes fadeIn {
-            0% { opacity: 0; }
-            100% { opacity: 1; }
-        }
-        .loading-text {
-            font-size: 24px;
-            margin: 10px;
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
         }
 
-        /* Taskbar Styles */
-        .taskbar {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 40px;
-            background: #2a2a2a;
+        /* Navigation Menu */
+        nav {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 10px;
-            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);
-            z-index: 10;
+            margin: 20px 0;
         }
-        .start-button {
-            background: #0078d7;
+        nav a {
             color: white;
-            padding: 5px 10px;
-            border-radius: 3px;
-            cursor: pointer;
+            text-decoration: none;
+            margin: 0 15px;
             font-weight: bold;
+            transition: color 0.3s;
         }
-        .start-button:hover {
-            background: #005a9e;
-        }
-
-        /* Desktop Icons */
-        .desktop {
-            position: absolute;
-            top: 50px;
-            bottom: 40px; /* Taskbar height */
-            left: 10px;
-            right: 10px;
-            display: flex;
-            flex-wrap: wrap;
-            padding: 10px;
-            display: none; /* Initially hidden */
-        }
-        .icon {
-            background: #fff;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            width: 80px;
-            height: 80px;
-            margin: 10px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            transition: transform 0.3s, box-shadow 0.3s;
-            position: relative;
-            overflow: hidden;
-            cursor: pointer;
-        }
-        .icon:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-        }
-        .icon img {
-            width: 50px;
-            height: 50px;
-            margin-bottom: 5px;
+        nav a:hover {
+            color: #ff4d00; /* Orange highlight */
         }
 
-        /* Windows-like Card Animation */
+        /* Card Style */
         .card {
-            position: absolute;
-            background: rgba(255, 255, 255, 0.9);
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            padding: 15px;
+            background: rgba(255, 0, 0, 0.8); /* Red with transparency */
+            padding: 20px;
+            margin: 10px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
             width: 300px;
-            display: none;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-            animation: slideIn 0.5s forwards;
+            transition: transform 0.3s;
         }
-        @keyframes slideIn {
-            from {
-                transform: translateY(-20px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
+        .card:hover {
+            transform: scale(1.05);
         }
-
-        /* Styles for Info Boxes */
-        .info-box {
-            background: rgba(255, 255, 255, 0.8);
-            border: 1px solid #ccc;
-            border-radius: 5px;
+        
+        /* Footer */
+        footer {
+            margin-top: auto;
             padding: 10px;
-            margin: 10px 0;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        }
-        .info-title {
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        /* Animation for Icons */
-        .animate-icon {
-            animation: bounce 1s infinite alternate;
-        }
-        @keyframes bounce {
-            from { transform: translateY(0); }
-            to { transform: translateY(-10px); }
-        }
-
-        /* Additional Styling for Realism */
-        .desktop-background {
-            background: url('https://i.imgur.com/CiB27Dg.jpg') no-repeat center center; 
-            background-size: cover;
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            z-index: -1;
+            text-align: center;
         }
     </style>
 </head>
 <body>
+    <h1>Marvel Inspired Portfolio</h1>
+    <nav>
+        <a href="#projects">Projects</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+    </nav>
 
-    <!-- Loading Screen -->
-    <div class="loading-screen" id="loadingScreen">
-        <div class="loading-text">Loading...</div>
-        <div class="loading-text">Please wait</div>
-        <div class="loading-text">Almost there...</div>
-        <div class="loading-text">Initializing...</div>
+    <div class="card">
+        <h2>Project 1: Web Development</h2>
+        <p>Created a fully functional e-commerce website.</p>
+    </div>
+    <div class="card">
+        <h2>Project 2: Game Development</h2>
+        <p>Developed a 2D platformer using Unity.</p>
     </div>
 
-    <!-- Desktop Background -->
-    <div class="desktop-background"></div>
-
-    <!-- Taskbar -->
-    <div class="taskbar">
-        <div class="start-button" id="startButton">Start</div>
-        <div class="taskbar-items">My Computer | Documents | Settings</div>
-    </div>
-
-    <!-- Desktop Area -->
-    <div class="desktop" id="desktop">
-        <div class="icon" id="resumeIcon">
-            <img src="https://i.imgur.com/N5Iu7Z1.png" alt="Resume">
-            <div>My Resume</div>
-        </div>
-        <div class="icon" id="portfolioIcon">
-            <img src="https://i.imgur.com/FQ5NlwK.png" alt="Portfolio">
-            <div>Portfolio</div>
-        </div>
-        <div class="icon" id="bpitIcon">
-            <img src="https://i.imgur.com/ORz1rV5.png" alt="BPIT">
-            <div>BPIT</div>
-        </div>
-    </div>
-
-    <!-- Info Boxes -->
-    <div class="card" id="infoBox">
-        <div class="info-title">Welcome to Garvit's Tech Space</div>
-        <div class="info-box">Name: Garvit</div>
-        <div class="info-box">College: BPIT</div>
-        <div class="info-box">Hobbies: Coding, Gym, Music</div>
-        <div class="info-box">Skills: C++, Python, Web Dev</div>
-        <div class="info-box">Contact: garvit@example.com</div>
-    </div>
-
-    <script>
-        // Loading screen timeout
-        setTimeout(() => {
-            document.getElementById('loadingScreen').style.display = 'none';
-            document.getElementById('desktop').style.display = 'flex';
-            document.getElementById('taskbar').style.display = 'flex';
-            document.getElementById('infoBox').style.display = 'block';
-        }, 4000);
-
-        // Taskbar Start button functionality
-        document.getElementById('startButton').addEventListener('click', () => {
-            alert('Start Menu opened!');
-        });
-
-        // Icons hover effects
-        const icons = document.querySelectorAll('.icon');
-        icons.forEach(icon => {
-            icon.addEventListener('mouseover', () => {
-                icon.classList.add('animate-icon');
-            });
-            icon.addEventListener('mouseout', () => {
-                icon.classList.remove('animate-icon');
-            });
-            icon.addEventListener('click', () => {
-                alert(`${icon.textContent} clicked!`);
-            });
-        });
-
-        // Show info box when desktop is ready
-        document.getElementById('infoBox').style.display = 'none';
-    </script>
+    <footer>
+        &copy; 2024 Garvit. All rights reserved.
+    </footer>
 </body>
 </html>
